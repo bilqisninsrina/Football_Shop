@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<p><a href="{% url 'main:show_main' %}"><button>← Back to Product List</button></a></p>
+
+<h1>{{ product.name }}</h1>
+
+<p>
+    <b>Kategori:</b> {{ product.category }}
+    {% if product.is_featured %} | <b>Featured</b>{% endif %}
+    </p>
+
+{% if product.thumbnail %}
+    <img src="{{ product.thumbnail }}" alt="Product thumbnail" width="300">
+    <br /><br />
+{% endif %}
+
+<p><b>Brand:</b> {{ product.brand }}</p>
+<p><b>Harga:</b> Rp {{ product.price }}</p>
+<p><b>Stok:</b> {{ product.stock }}</p>
+
+<h3>Deskripsi</h3>
+<p>{{ product.description|linebreaksbr|default:"Belum ada deskripsi." }}</p>
+
+{% endblock content %}
