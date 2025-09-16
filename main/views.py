@@ -8,7 +8,7 @@ def show_main(request):
     product_list = Product.objects.all()
 
     context = {
-        'nama_aplikasi' : 'Bili Shop',
+        'nama_aplikasi' : 'B-Athletica',
         'name': 'Bilqis Nisrina Dzahabiyah Mulyadi',
         'class': 'PBP C',
         'product_list': product_list
