@@ -1,8 +1,7 @@
+import uuid
 from django.db import models
 
 class Product(models.Model):
-    id = models.BigAutoField(primary_key=True) 
-
     CATEGORY_CHOICES = [
         ('fitness', 'Fitness'),
         ('apparel', 'Apparel'),
@@ -15,6 +14,7 @@ class Product(models.Model):
         ('others', 'Lainnya'),
     ]
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
     price = models.IntegerField()
     description = models.TextField()
