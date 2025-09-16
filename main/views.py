@@ -26,8 +26,8 @@ def create_product(request):
     context = {'form': form}
     return render(request, "create_product.html", context)
 
-def show_product(request, id):
-    product = get_object_or_404(Product, pk=id)
+def show_product(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
 
     context = {
         'product': product
