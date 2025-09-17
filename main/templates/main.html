@@ -37,11 +37,11 @@
       <img src="{{ product.thumbnail }}" alt="thumbnail" width="150" height="100"><br />
     {% endif %}
 
-    <p>{{ product.description|truncatewords:25 }}</p>
+  <p>{{ product.description }}...</p>
 
   <p><a href="{% url 'main:show_product' product.id %}"><button>Detail</button></a></p>
   </div>
-  
+
   <hr>
 {% endfor %}
 {% endif %}
