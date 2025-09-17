@@ -21,4 +21,10 @@
 <h3>Deskripsi</h3>
 <p>{{ product.description|linebreaksbr|default:"Belum ada deskripsi." }}</p>
 
+{% if product.user %}
+    <p>Author: {{ product.user.username }}</p>
+{% else %}
+    <p>Author: Anonymous</p>
+{% endif %}
+
 {% endblock content %}
