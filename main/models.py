@@ -13,6 +13,8 @@ class Product(models.Model):
         ('supplements', 'Supplements'),
         ('others', 'Lainnya'),
     ]
+    class Meta:
+        db_table = "main_product_uuid"
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
