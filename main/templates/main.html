@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <h1>B-Athletica</h1>
 
 <h5>Nama Aplikasi: </h5>
@@ -37,13 +39,10 @@
 
     <p>{{ product.description|truncatewords:25 }}</p>
 
-    <p>
-      <a href="{% url 'main:show_product' product_id %}">
-        <button>Detail</button>
-      </a>
-    </p>
+  <p><a href="{% url 'main:show_product' product.id %}"><button>Detail</button></a></p>
   </div>
+  
   <hr>
 {% endfor %}
-
 {% endif %}
+{% endblock content %}
