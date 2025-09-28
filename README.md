@@ -79,9 +79,9 @@ External style sheet adalah file CSS terpisah (biasanya berekstensi .css) yang d
 
 - Browser default
 Browser default adalah style bawaan yang diterapkan browser ketika tidak ada aturan CSS lain. Contohnya:
-<h1> tampil lebih besar dan tebal dibanding <p>.
-<a> biasanya berwarna biru dan bergaris bawah.
-<ul> dan <ol> memiliki bullet/nomor serta margin bawaan.
+h1 tampil lebih besar dan tebal dibanding p.
+a biasanya berwarna biru dan bergaris bawah.
+ul dan ol memiliki bullet/nomor serta margin bawaan.
 
 2. Responsive design menjadi konsep penting dalam pengembangan aplikasi web karena pengguna mengakses internet dari berbagai jenis perangkat dengan ukuran layar yang berbeda, mulai dari smartphone, tablet, hingga desktop. Tanpa desain yang responsif, tampilan halaman akan terlihat berantakan, sulit dibaca, dan menyulitkan interaksi ketika dibuka di layar yang lebih kecil, yang pada akhirnya menurunkan pengalaman pengguna dan dapat membuat pengunjung enggan kembali. Sebaliknya, desain responsif memastikan elemen-elemen antarmuka menyesuaikan diri secara otomatis, baik dalam hal ukuran font, tata letak, maupun navigasi, sehingga nyaman digunakan di semua perangkat. Contoh aplikasi nyata yang sudah menerapkan responsive design adalah YouTube, di mana tampilan video, rekomendasi, dan navigasi akan menyesuaikan ukuran layar ponsel maupun desktop tanpa kehilangan fungsionalitas. Contoh aplikasi terkenal yang pada awalnya tidak responsif adalah LinkedIn versi lama, di mana tampilan pada perangkat mobile tidak menyesuaikan layar secara optimal sehingga teks tampak kecil, pengguna harus melakukan zoom manual, dan navigasi menjadi sulit. Perbandingan ini menegaskan bahwa responsive design bukan hanya mempercantik tampilan, tetapi juga memastikan aksesibilitas, kemudahan interaksi, dan kepuasan pengguna di berbagai perangkat modern.
 
