@@ -1,9 +1,9 @@
 {% load static %}
 <article class="bg-white rounded-lg border border-gray-200 hover:shadow-lg transition-shadow duration-300 overflow-hidden">
   <!-- Thumbnail -->
-  <div class="aspect-[16/9] relative overflow-hidden">
+  <div class="aspect-[16/9] relative overflow-hidden rounded-md mb-4">
     {% if product.thumbnail %}
-      <img src="{{ product.thumbnail }}" alt="{{ product.title }}" class="w-full h-full object-cover">
+      <img src="{{ product.thumbnail }}" alt="{{ product.name }}" class="w-full h-full object-cover">
     {% else %}
       <div class="w-full h-full bg-gray-200"></div>
     {% endif %}
@@ -32,29 +32,27 @@
 
   <!-- Content -->
   <div class="p-5">
-    <div class="flex items-center text-sm text-gray-500 mb-3">
-      <time datetime="{{ product.created_at|date:'c' }}">
-        {{ product.created_at|date:"M j, Y" }}
-      </time>
-      <span class="mx-2">•</span>
-      <span>{{ product.product_views }} views</span>
-    </div>
-
-    <h3 class="text-lg font-semibold text-gray-900 mb-3 line-clamp-2 leading-tight">
-      <a href="{% url 'main:show_product' product.id %}" class="hover:text-blue-600 transition-colors">
-        {{ product.title }}
-      </a>
+    
+  <!-- Name & Price -->
+  <div class="flex items-center justify-between mb-2">
+    <h3 class="text-lg font-semibold text-gray-900 line-clamp-1">
+      {{ product.name }}
     </h3>
+    <span class="text-lg font-semibold text-gray-800">
+      ${{ product.price }}
+    </span>
+  </div>
 
-    <p class="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
-      {{ product.content|truncatewords:20 }}
-    </p>
-
+  <!-- Description -->
+  <p class="text-gray-500 text-sm mb-3 line-clamp-2">
+    {{ product.description|truncatewords:12 }}
+  </p>  
+    
     <!-- Action Buttons -->
     {% if user.is_authenticated and product.user == user %}
       <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-        <a href="{% url 'main:show_product' product.id %}" class="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors">
-          Read more
+        <a href="{% url 'main:show_product' product.id %}" class="px-2 py-2 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-50 transition-colors text-sm">
+        Detail Product →
         </a>
         <div class="flex space-x-2">
           <a href="{% url 'main:edit_product' product.id %}" class="text-gray-600 hover:text-gray-700 text-sm transition-colors">
@@ -67,8 +65,8 @@
       </div>
     {% else %}
       <div class="pt-4 border-t border-gray-100">
-        <a href="{% url 'main:show_product' product.id %}" class="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors">
-          Read more →
+        <a href="{% url 'main:show_product' product.id %}" class="px-2 py-2 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-50 transition-colors text-sm">
+          Detail Product →
         </a>
       </div>
     {% endif %}
