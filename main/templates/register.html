@@ -6,12 +6,31 @@
 
 {% block content %}
 <div class="form-style">
-  <div class="min-h-screen bg-gray-50 flex items-center justify-center p-8">
-    <div class="max-w-md w-full relative z-10">
-      <div class="bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
-      <div class="text-center mb-8">
-        <h2 class="text-2xl font-semibold text-gray-900 mb-2">Join Us</h2>
-        <p class="text-gray-500">Create your B-Athletica Product account</p>
+<div class="relative w-full min-h-screen flex items-center justify-center p-8 bg-cover bg-center"
+style="
+       background-color: #ffffff;
+       /* background-image:
+         radial-gradient(at 20% 30%, rgba(3, 52, 112, 0.474), transparent 70%),
+         radial-gradient(at 70% 70%, rgba(11, 41, 67, 0.8), transparent 75%),
+         radial-gradient(at 50% 50%, rgba(3, 61, 132, 0.542), transparent 70%); */
+       background-blend-mode: screen;
+     ">
+    <div class="max-w-md w-full">
+    <div class="relative rounded-2xl p-[2px] bg-transparent shadow-[0_0_25px_rgba(255,255,255,0.05)]">
+    <div class="backdrop-blur-3xl rounded-md p-8 sm:p-10 text-white form-style"
+        style="
+          background: linear-gradient(145deg, #1c57a0, #0a1e73, #502e8a);
+          background-blend-mode: overlay;
+          box-shadow:
+            0 0 30px rgba(255, 255, 255, 0.4),
+            0 0 60px rgba(255, 255, 255, 0.25),
+            0 0 90px rgba(255, 255, 255, 0.15);
+        ">
+      <div class="text-center mb-4 mt-[-10px]">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4 tracking-wide drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">
+          Join Us
+        </h1>        
+        <p class="text-white-500">Create your B-Athletica account</p>
       </div>
 
       <!-- Form Errors Display -->
@@ -43,7 +62,7 @@
         {% csrf_token %}
         
         <div>
-          <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+          <label for="username" class="block text-sm font-medium text-white-700 mb-2">Username</label>
           <input 
             id="username" 
             name="username" 
@@ -54,7 +73,7 @@
         </div>
 
         <div>
-          <label for="password1" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+          <label for="password1" class="block text-sm font-medium text-white-700 mb-2">Password</label>
           <input 
             id="password1" 
             name="password1" 
@@ -65,7 +84,7 @@
         </div>
 
         <div>
-          <label for="password2" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+          <label for="password2" class="block text-sm font-medium text-white-700 mb-2">Confirm Password</label>
           <input 
             id="password2" 
             name="password2" 
@@ -103,12 +122,14 @@
         </div>
       {% endif %}
 
-      <div class="mt-6 text-center">
-        <p class="text-gray-500 text-sm">
+      <div class="mt-6 text-center pt-6 border-t border-white-200">
+        <p class="text-white-500 text-medium">
           Already have an account? 
-          <a href="{% url 'main:login' %}" class="text-blue-600 hover:text-blue-700 font-medium">
-            Sign In
-          </a>
+        <a href="{% url 'main:login' %}" 
+          style="color:#99b4ff; text-shadow:0 0 10px rgb(27, 25, 189); font-weight:600;"
+          class="hover:text-blue transition-colors">
+          Sign In
+        </a>
         </p>
       </div>
       </div>
