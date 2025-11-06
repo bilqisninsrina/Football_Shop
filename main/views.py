@@ -16,7 +16,9 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.db.models import F
-
+from django.utils.html import strip_tags 
+from django.views.decorators.http import require_http_methods
+from django.contrib.auth import login as auth_login
 
 @login_required(login_url='/login')
 def show_main(request):
@@ -172,27 +174,106 @@ def delete_product(request, id):
 @csrf_exempt
 @require_POST
 def add_product_entry_ajax(request):
-    name = request.POST.get("name")
-    description = request.POST.get("description")
-    category = request.POST.get("category")
-    thumbnail = request.POST.get("thumbnail")
-    is_featured = request.POST.get("is_featured") == 'on'  # checkbox handling
-    user = request.user
+    # Ambil & sanitize input (ikuti pola tutorial)
+    name = strip_tags(request.POST.get("name", "")).strip()
+    description = strip_tags(request.POST.get("description", "")).strip()
+    category = request.POST.get("category", "others")
+    thumbnail = request.POST.get("thumbnail", "") or ""
+    is_featured = request.POST.get("is_featured") == 'on'
+
+    # price (int > 0)
+    try:
+        price = int(request.POST.get("price", "0"))
+    except ValueError:
+        price = 0
+
+    # stock & brand → gunakan default aman
+    try:
+        stock = int(request.POST.get("stock", "0"))
+    except ValueError:
+        stock = 0
+    brand = (request.POST.get("brand") or "").strip() or "Flexora"
+
+    if not name or not description or price <= 0:
+        return HttpResponse(b"BAD_REQUEST", status=400)
 
     new_product = Product(
-        name=name, 
+        user=request.user if request.user.is_authenticated else None,
+        name=name,
+        price=price,
         description=description,
-        category=category,
         thumbnail=thumbnail,
+        category=category,
         is_featured=is_featured,
-        user=user
+        stock=stock,
+        brand=brand,
     )
     new_product.save()
-
     return HttpResponse(b"CREATED", status=201)
 
-@csrf_exempt
-@require_POST
-def add_product_entry_ajax(request):
-    name = strip_tags(request.POST.get("name")) # strip HTML tags!
-    description = strip_tags(request.POST.get("description")) # strip HTML tags!
+@require_http_methods(["POST"])
+@login_required(login_url='/login')
+def edit_product_entry_ajax(request, id):
+    """
+    Update product via AJAX.
+    Payload: name, price, description, thumbnail, category, is_featured, stock, brand
+    """
+    product = get_object_or_404(Product, pk=id, user=request.user)
+
+    # bersihkan & parse (ikuti pola tutorial + strip_tags)
+    name = strip_tags(request.POST.get("name", "")).strip()
+    description = strip_tags(request.POST.get("description", "")).strip()
+    category = request.POST.get("category", "others")
+    thumbnail = (request.POST.get("thumbnail") or "").strip()
+    is_featured = request.POST.get("is_featured") == 'on'
+
+    def to_int(s, default=0):
+        try: return int(s)
+        except (TypeError, ValueError): return default
+
+    price = to_int(request.POST.get("price"), 0)
+    stock = to_int(request.POST.get("stock"), 0)
+    brand = (request.POST.get("brand") or "").strip() or "Flexora"
+
+    if not name or not description or price <= 0:
+        return JsonResponse({'detail':'BAD_REQUEST'}, status=400)
+
+    product.name = name
+    product.price = price
+    product.description = description
+    product.thumbnail = thumbnail
+    product.category = category
+    product.is_featured = is_featured
+    product.stock = stock
+    product.brand = brand
+    product.save()
+
+    return JsonResponse({'detail':'UPDATED'}, status=200)
+
+
+@require_http_methods(["POST"])
+@login_required(login_url='/login')
+def delete_product_entry_ajax(request, id):
+    product = get_object_or_404(Product, pk=id, user=request.user)
+    product.delete()
+    return JsonResponse({'detail':'DELETED'}, status=200)
+
+@require_http_methods(["POST"])
+def login_user_ajax(request):
+    form = AuthenticationForm(data=request.POST)
+    if form.is_valid():
+        user = form.get_user()
+        auth_login(request, user)
+        resp = JsonResponse({'detail': 'OK', 'username': user.username})
+        resp.set_cookie('last_login', str(datetime.datetime.now()))
+        return resp
+    return JsonResponse({'detail': 'INVALID_CREDENTIALS', 'errors': form.errors}, status=400)
+
+
+@require_http_methods(["POST"])
+def register_ajax(request):
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+        form.save()
+        return JsonResponse({'detail': 'CREATED'}, status=201)
+    return JsonResponse({'detail': 'INVALID_FORM', 'errors': form.errors}, status=400)

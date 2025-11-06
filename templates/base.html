@@ -15,5 +15,15 @@
 
     {% include 'toast.html' %}
     {% include 'modal.html' %}
+
+    <script>
+      // Ambil cookie dengan nama tertentu (dipakai untuk csrftoken)
+      function getCookie(name) {
+        const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+        return v ? v.pop() : '';
+      }
+      // Simpan token CSRF di variabel global agar mudah dipakai di fetch()
+      const CSRF_TOKEN = getCookie('csrftoken');
+    </script>
   </body>
 </html>

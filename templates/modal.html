@@ -5,7 +5,8 @@
     <div class="flex items-center justify-between p-4 border-b">
       <div>
         <h3 class="text-xl font-semibold text-gray-900">
-          Create New Product
+          <!-- Judul modal akan sama baik create/edit -->
+          Create / Edit Product
         </h3>
         <p class="text-sm text-gray-600 mt-1">Share your football product and stories with the community</p>
       </div>
@@ -18,105 +19,126 @@
     </div>
     <!-- Modal body -->
     <div class="px-6 py-4 space-y-6 form-style">
-<!-- templates/modal.html -->
-    <form id="productForm">
-    <div class="mb-4">
-        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-        <input type="text" id="name" name="name" class="mt-1 block w-full border rounded-md px-3 py-2" placeholder="Enter product name" required>
-    </div>
-
-    <div class="mb-4">
-        <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
-        <input type="number" id="price" name="price" min="0" class="mt-1 block w-full border rounded-md px-3 py-2" placeholder="e.g. 199" required>
-    </div>
-
-    <div class="mb-4">
-        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-        <textarea id="description" name="description" rows="3" class="mt-1 block w-full border rounded-md px-3 py-2" placeholder="Enter product description" required></textarea>
-    </div>
-
-    <div class="mb-4">
-        <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-        <select id="category" name="category" class="mt-1 block w-full border rounded-md px-3 py-2" required>
-        <option value="">Choose a category</option>
-        <option value="fitness">Fitness</option>
-        <option value="apparel">Apparel</option>
-        <option value="shoes">Shoes</option>
-        <option value="outdoor">Outdoor</option>
-        <option value="ball">Ball</option>
-        <option value="racket">Racket</option>
-        <option value="accessories">Accessories</option>
-        <option value="supplements">Supplements</option>
-        <option value="others">Lainnya</option>
-        </select>
-    </div>
-
-    <div class="mb-4">
-        <label for="thumbnail" class="block text-sm font-medium text-gray-700">Thumbnail URL</label>
-        <input type="url" id="thumbnail" name="thumbnail" class="mt-1 block w-full border rounded-md px-3 py-2" placeholder="https://example.com/image.jpg">
-    </div>
-
-    <div class="mb-4">
-        <div class="flex items-center">
-        <input id="is_featured" name="is_featured" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded">
-        <label for="is_featured" class="ml-2 text-sm font-medium text-gray-900">Featured Product</label>
+      <!-- ================== FORM (BARU: dukung create & edit) ================== -->
+      <form id="productForm" data-mode="create" data-edit-id="">
+        <!-- id tersembunyi (mudah kalau perlu) -->
+        <input type="hidden" id="product_id" name="product_id" value="">
+        <div class="mb-4">
+          <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+          <input type="text" id="name" name="name" class="mt-1 block w-full border rounded-md px-3 py-2" placeholder="Enter product name" required>
         </div>
-    </div>
-    </form>
+
+        <div class="mb-4">
+          <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+          <input type="number" id="price" name="price" min="0" class="mt-1 block w-full border rounded-md px-3 py-2" placeholder="e.g. 199" required>
+        </div>
+
+        <div class="mb-4">
+          <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+          <textarea id="description" name="description" rows="3" class="mt-1 block w-full border rounded-md px-3 py-2" placeholder="Enter product description" required></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+          <select id="category" name="category" class="mt-1 block w-full border rounded-md px-3 py-2" required>
+            <option value="">Choose a category</option>
+            <option value="fitness">Fitness</option>
+            <option value="apparel">Apparel</option>
+            <option value="shoes">Shoes</option>
+            <option value="outdoor">Outdoor</option>
+            <option value="ball">Ball</option>
+            <option value="racket">Racket</option>
+            <option value="accessories">Accessories</option>
+            <option value="supplements">Supplements</option>
+            <option value="others">Lainnya</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label for="thumbnail" class="block text-sm font-medium text-gray-700">Thumbnail URL</label>
+          <input type="url" id="thumbnail" name="thumbnail" class="mt-1 block w-full border rounded-md px-3 py-2" placeholder="https://example.com/image.jpg">
+        </div>
+
+        <div class="mb-4">
+          <div class="flex items-center">
+            <input id="is_featured" name="is_featured" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded">
+            <label for="is_featured" class="ml-2 text-sm font-medium text-gray-900">Featured Product</label>
+          </div>
+        </div>
+      </form>
     </div>
 
     <!-- Modal footer -->
     <div class="flex flex-col sm:flex-row gap-4 p-6 border-t border-gray-200 rounded-b">
       <button type="button" id="cancelButton" class="order-2 sm:order-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-50 transition-colors text-center" onclick="hideModal()">Cancel</button>
-      <button type="submit" id="submitProduct" form="productForm" class="order-1 sm:order-2 flex-1 bg-green-600 text-white px-6 py-3 rounded-md font-medium hover:bg-green-700 transition-colors">Publish Product</button>
+      <!-- Tombol submit submit form #productForm -->
+      <button type="submit" id="submitProduct" form="productForm" class="order-1 sm:order-2 flex-1 bg-green-600 text-white px-6 py-3 rounded-md font-medium hover:bg-green-700 transition-colors">Publish / Update Product</button>
     </div>
   </div>
 </div>
 
 <script>
+  // Tampilkan modal
   function showModal() {
-      const modal = document.getElementById('crudModal');
-      const modalContent = document.getElementById('crudModalContent');
-
-      modal.classList.remove('hidden'); 
-      setTimeout(() => {
-        modalContent.classList.remove('opacity-0', 'scale-95');
-        modalContent.classList.add('opacity-100', 'scale-100');
-      }, 50); 
+    const modal = document.getElementById('crudModal');
+    const modalContent = document.getElementById('crudModalContent');
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+      modalContent.classList.remove('opacity-0', 'scale-95');
+      modalContent.classList.add('opacity-100', 'scale-100');
+    }, 50);
   }
 
+  // Sembunyikan modal
   function hideModal() {
-      const modal = document.getElementById('crudModal');
-      const modalContent = document.getElementById('crudModalContent');
-
-      modalContent.classList.remove('opacity-100', 'scale-100');
-      modalContent.classList.add('opacity-0', 'scale-95');
-
-      setTimeout(() => {
-        modal.classList.add('hidden');
-      }, 150); 
+    const modal = document.getElementById('crudModal');
+    const modalContent = document.getElementById('crudModalContent');
+    modalContent.classList.remove('opacity-100', 'scale-100');
+    modalContent.classList.add('opacity-0', 'scale-95');
+    setTimeout(() => { modal.classList.add('hidden'); }, 150);
   }
 
-  async function addProductEntry() {
-    await fetch("{% url 'main:add_product_entry_ajax' %}", {
+  // ================== SUBMIT CREATE / EDIT via AJAX (BARU) ==================
+  async function addOrUpdateProductEntry() {
+    const formEl = document.querySelector('#productForm');
+    const mode   = formEl.dataset.mode || 'create';     // 'create' atau 'edit'
+    const editId = formEl.dataset.editId || '';
+
+    // Tentukan URL berdasarkan mode
+    const url = (mode === 'edit')
+      ? "{% url 'main:edit_product_entry_ajax' '00000000-0000-0000-0000-000000000000' %}".replace('00000000-0000-0000-0000-000000000000', editId)
+      : "{% url 'main:add_product_entry_ajax' %}";
+
+    // Kirim POST + CSRF
+    const response = await fetch(url, {
       method: "POST",
-      body: new FormData(document.querySelector('#productForm')),
-    })
+      headers: { "X-CSRFToken": CSRF_TOKEN }, // kirim token CSRF
+      body: new FormData(formEl),             // payload dari form
+    });
 
-    document.getElementById("productForm").reset();
+    if (!response.ok) {
+      // Jika gagal, munculkan toast error
+      showToast('Failed', 'Please check your input.', 'error');
+      return false;
+    }
+
+    // Reset form & kembalikan mode ke create
+    formEl.reset();
+    formEl.dataset.mode = 'create';
+    formEl.dataset.editId = '';
+    document.getElementById('product_id').value = '';
+
     hideModal();
-      
-    // Show toast notification
-    showToast('Product added successfully!', '', 'success');
 
-    // Dispatch custom event to notify main.html about new data
-    document.dispatchEvent(new CustomEvent('productAdded'));
-
+    // Beri feedback + minta halaman utama refresh list
+    showToast(mode === 'edit' ? 'Product updated' : 'Product added', '', 'success');
+    document.dispatchEvent(new CustomEvent(mode === 'edit' ? 'productUpdated' : 'productAdded'));
     return false;
   }
 
+  // Intercept submit default form agar tidak reload
   document.getElementById("productForm").addEventListener("submit", function(e) {
     e.preventDefault();
-    addProductEntry();
-})
+    addOrUpdateProductEntry();
+  });
 </script>
